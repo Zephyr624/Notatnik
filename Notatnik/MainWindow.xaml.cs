@@ -1,23 +1,11 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Xml;
 using System.Xml.Serialization;
 
 
@@ -26,21 +14,23 @@ namespace Notatnik
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         public ObservableCollection<Note> Notes
-        { get; set; } = new ObservableCollection<Note>();
+        { get; set; }
         public MainWindow()
         {
             InitializeComponent();
-            XmlSerializer xs = new XmlSerializer(typeof(ObservableCollection<Note>));
-            using (StreamReader rd = new StreamReader("notes.xml"))
+            XmlSerializer xs = new(typeof(ObservableCollection<Note>));
+            try
             {
-                //if (xDoc.ChildNodes.Count > 1)
-                //{
-                    Notes = xs.Deserialize(rd) as ObservableCollection<Note>;
-                //}
+                using StreamReader rd = new("notes.xml");
+                Notes = xs.Deserialize(rd) as ObservableCollection<Note> ?? new ObservableCollection<Note>();
+            }catch (Exception)
+            {
+                Notes = new ObservableCollection<Note>();
             }
+            SelectedNote = Notes.Count > 0 ? 0 : - 1;
         }
         
 
@@ -120,8 +110,7 @@ namespace Notatnik
         public event PropertyChangedEventHandler? PropertyChanged;
         private void OnPropertyChanged(string property)
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(property));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
         }
         private void AddClick(object sender, RoutedEventArgs e)
         {
@@ -131,7 +120,6 @@ namespace Notatnik
             {
                 Notes.Add(addWindow.Note);
                 SelectedNote = 0;
-                DetailsButton.IsEnabled = true;
             }
         }
         private void EditClick(object sender, RoutedEventArgs e)
@@ -170,13 +158,7 @@ namespace Notatnik
             }
 
             Notes.RemoveAt(SelectedNote);
-            NoteListBox.Items.Refresh();
-            if (Notes.Count != 0)
-            {
-                DetailsButton.IsEnabled = true;
-                SelectedNote = 0;
-            }
-            else { DetailsButton.IsEnabled = false; SelectedNote = -1; }
+            selectedNote = Notes.Count > 0 ? Notes.Count : -1;
         }
         private void DetailsClick(object sender, RoutedEventArgs e)
         {
