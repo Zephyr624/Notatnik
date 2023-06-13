@@ -63,10 +63,6 @@
                 Grid.Column="1"
                 Grid.Row="0"
                 Click="SearchClick"
-                IsEnabled="{Binding Path=SearchString,
-                RelativeSource={RelativeSource FindAncestor,
-                AncestorType={x:Type Window}},
-                Mode=OneWay}" 
                 Content="Szukaj"/>
                 <ComboBox Name="Filter_Combobox" Grid.Column="2" IsEnabled="True" SelectionChanged="OptionClick" Margin="3" >
                     <ComboBoxItem>Data malejąco</ComboBoxItem>
