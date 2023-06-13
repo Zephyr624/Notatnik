@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Notatnik"
         mc:Ignorable="d" 
-        Title="Notatnik" MinHeight="450" MinWidth="820" Height="450" Width="820"
-        Loaded="LoadWindow">
+        Title="Notatnik" MinHeight="450" MinWidth="900" Height="450" Width="820"
+        >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
@@ -62,19 +62,18 @@
                 <Button Name="SearchButton" Margin="3"
                 Grid.Column="1"
                 Grid.Row="0"
-                Click="SearchClick"
+                Click="Filter"
                 Content="Szukaj"/>
-                <ComboBox Name="Filter_Combobox" Grid.Column="2" IsEnabled="True" SelectionChanged="OptionClick" Margin="3" SelectedIndex="0">
-                    <ComboBoxItem>Data rosnąco</ComboBoxItem>
-                    <ComboBoxItem>Data malejąco</ComboBoxItem>
-                    <ComboBoxItem>Tytuł A-Z</ComboBoxItem>
-                    <ComboBoxItem>Tytuł Z-A</ComboBoxItem>
+                <Label Margin="3"
+                Grid.Column="2"
+                Grid.Row="2"
+                Content="Sortowanie"/>
+                <ComboBox Name="Filter_Combobox" Grid.Column="3" IsEnabled="True" Margin="3" SelectedIndex="0">
+                    <ComboBoxItem Selected="SortDate">Data rosnąco</ComboBoxItem>
+                    <ComboBoxItem Selected="SortDateDesc">Data malejąco</ComboBoxItem>
+                    <ComboBoxItem Selected="SortTitle">Tytuł A-Z</ComboBoxItem>
+                    <ComboBoxItem Selected="SortTitleDesc">Tytuł Z-A</ComboBoxItem>
                 </ComboBox>
-                <Button Name="SortButton" Margin="3"
-                Grid.Column="3"
-                Grid.Row="0"
-                Click="SortClick"
-                Content="Sortuj"/>
                 <Label Margin="3"
                 Grid.Column="4"
                 Grid.Row="2"
@@ -100,7 +99,7 @@
                 <Button Name="FilterButton" Margin="3"
                 Grid.Column="8"
                 Grid.Row="0"
-                Click="FilterClick"
+                Click="Filter"
                 Content="Filtruj"/>
             </Grid>
 

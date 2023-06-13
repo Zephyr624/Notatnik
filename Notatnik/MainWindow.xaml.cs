@@ -6,7 +6,9 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Xml.Serialization;
+using static System.Reflection.Metadata.BlobBuilder;
 
 
 namespace Notatnik
@@ -16,8 +18,7 @@ namespace Notatnik
     /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        public ObservableCollection<Note> Notes
-        { get; set; }
+        public ObservableCollection<Note> Notes { get; set; } = new ObservableCollection<Note>();
         public MainWindow()
         {
             InitializeComponent();
@@ -26,15 +27,21 @@ namespace Notatnik
             {
                 using StreamReader rd = new("notes.xml");
                 Notes = xs.Deserialize(rd) as ObservableCollection<Note> ?? new ObservableCollection<Note>();
-            }catch (Exception)
-            {
-                Notes = new ObservableCollection<Note>();
             }
-            SelectedNote = Notes.Count > 0 ? 0 : - 1;
-        }
-        
+            catch (Exception) { }
 
-        public List<Note> FilteredNotes= new List<Note>();
+            NoteListBox.ItemsSource = Notes;
+            SelectedNote = Notes.Count > 0 ? 0 : -1;
+        }
+        private ListCollectionView View
+        {
+            get
+            {
+                return (ListCollectionView)CollectionViewSource.GetDefaultView(Notes);
+            }
+        }
+
+        public List<Note> FilteredNotes = new List<Note>();
 
         private int selectedNote;
 
@@ -84,23 +91,20 @@ namespace Notatnik
             }
         }
         public bool ItemSelected { get { return SelectedNote != -1; } }
-        private void LoadWindow(object sender, RoutedEventArgs e)
-        {
-            SelectedNote = 0;
-            NoteListBox.ItemsSource = Notes;
-        }
+
         private void NotifyDetails()
         {
             if (detailsWindow != null)
             {
-                if (FilteredNotes.Count>SelectedNote)
+                if (FilteredNotes.Count > SelectedNote)
                 {
                     var filterednote = FilteredNotes[SelectedNote];
                     if (searchString != null || FilterItem != null || (DateFrom != null && DateTo != null))
                     {
                         detailsWindow.Note = filterednote;
                     }
-                }else
+                }
+                else
                 {
                     var unfilterednote = Notes[SelectedNote];
                     detailsWindow.Note = unfilterednote;
@@ -129,7 +133,7 @@ namespace Notatnik
             var note = unfilterednote;
             if (searchString != null || FilterItem != null || (DateFrom != null && DateTo != null))
             {
-                note= filterednote;
+                note = filterednote;
             }
             var editWindow = new EditWindow();
             editWindow.Note.Title = note.Title;
@@ -149,20 +153,20 @@ namespace Notatnik
             if (MessageBox.Show("Czy na pewno chcesz usunąć ten film?", "Usuń", MessageBoxButton.YesNo,
                 MessageBoxImage.Question) != MessageBoxResult.Yes)
                 return;
-            if (searchString != null || FilterItem != null || (DateFrom != null && DateTo != null))
-            {
-                var filterednote = FilteredNotes[SelectedNote];
-                FilteredNotes.RemoveAt(SelectedNote);
-                NoteListBox.Items.Refresh();
-                selectedNote =Notes.IndexOf(filterednote);
-            }
+            //if (searchString != null || FilterItem != null || (DateFrom != null && DateTo != null))
+            //{
+            //    var filterednote = FilteredNotes[SelectedNote];
+            //    Notes.RemoveAt(SelectedNote);
+            //    NoteListBox.Items.Refresh();
+            //    selectedNote =Notes.IndexOf(filterednote);
+            //}
 
             Notes.RemoveAt(SelectedNote);
             selectedNote = Notes.Count > 0 ? Notes.Count : -1;
         }
         private void DetailsClick(object sender, RoutedEventArgs e)
         {
-            
+
             detailsWindow = new DetailsWindow();
             NotifyDetails();
             detailsWindow.Show();
@@ -176,42 +180,10 @@ namespace Notatnik
         }
         private void SearchClick(object sender, RoutedEventArgs e)
         {
-            FilteredNotes=Notes.Where(w => w.Title.Contains(searchString)).ToList();
-            NoteListBox.ItemsSource = FilteredNotes;
-            NoteListBox.Items.Refresh();
-        }
-        private void SortClick(object sender, RoutedEventArgs e)
-        {
-            FilteredNotes = Notes.ToList();
-            switch (FilterItem)
-            {
-                case "Data malejąco":
-                    FilteredNotes = Notes.OrderByDescending(w => w.NoteDate).ToList();
-                    break;
-                case "Data rosnąco":
-                    FilteredNotes = Notes.OrderBy(w => w.NoteDate).ToList();
-                    break;
-                case "Tytuł A-Z":
-                    FilteredNotes = Notes.OrderBy(w => w.Title).ToList();
-                    break;
-                case "Tytuł Z-A":
-                    FilteredNotes = Notes.OrderByDescending(w => w.Title).ToList();
-                    break;
-                default:
-                    FilteredNotes = Notes.ToList();
-                    break;
-
-            }
-            NoteListBox.ItemsSource = FilteredNotes;
-            NoteListBox.Items.Refresh();
-        }
-        private void OptionClick(object sender, RoutedEventArgs e)
-        {
-            if (Filter_Combobox.SelectedItem != null)
-            {
-                var item = (ComboBoxItem)Filter_Combobox.SelectedItem;
-                FilterItem=item.Content.ToString();
-            }
+            //FilteredNotes=Notes.Where(w => w.Title.Contains(searchString)).ToList();
+            //NoteListBox.ItemsSource = FilteredNotes;
+            //NoteListBox.Items.Refresh();
+            CollectionViewSource.GetDefaultView(NoteListBox.ItemsSource).Refresh();
         }
         protected override void OnClosing(CancelEventArgs e)
         {
@@ -221,28 +193,70 @@ namespace Notatnik
                 xs.Serialize(wr, Notes);
             }
             base.OnClosing(e);
-            if (detailsWindow != null)
-                detailsWindow.Close();
+            detailsWindow?.Close();
         }
 
-        private void FilterClick(object sender, RoutedEventArgs e)
-        {
-            FilteredNotes = Notes.Where(w => w.NoteDate.CompareTo(DateFrom)>0 && w.NoteDate.CompareTo(DateTo)<0).ToList();
-            NoteListBox.ItemsSource = FilteredNotes;
-            NoteListBox.Items.Refresh();
-        }
         private void ReloadWindow(object sender, RoutedEventArgs e)
         {
-            SelectedNote = -1;
-            NoteListBox.ItemsSource = Notes;
-            searchString = null;
-            FilterItem = null;
+            SelectedNote = Notes.Count > 0 ? 0 : -1;
+            SearchString = "";
+            Filter_Combobox.SelectedIndex = 0;
             DateTo = null;
             DateFrom = null;
+            CollectionViewSource.GetDefaultView(NoteListBox.ItemsSource).Refresh();
         }
         private void ClearClick(object sender, RoutedEventArgs e)
         {
             ReloadWindow(sender, e);
+        }
+
+        private void Filter(object sender, RoutedEventArgs e)
+        {
+            View.Filter = delegate (object item)
+            {
+                bool showNote = true;
+                if (item is not Note note) { return false; }
+
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    showNote = note.Title.Contains(searchString, StringComparison.OrdinalIgnoreCase);
+                }
+
+                if (DateFrom.HasValue)
+                {
+                    showNote = showNote && note.NoteDate.CompareTo(DateFrom.Value) >= 0;
+                }
+
+                if (DateTo.HasValue)
+                {
+                    showNote = showNote && note.NoteDate.CompareTo(DateTo.Value) <= 0;
+                }
+                return showNote;
+            };
+        }
+
+        private void SortTitle(object sender, RoutedEventArgs e)
+        {
+            View.SortDescriptions.Clear();
+            View.SortDescriptions.Add(new SortDescription(nameof(Note.Title), ListSortDirection.Ascending));
+        }
+
+        private void SortTitleDesc(object sender, RoutedEventArgs e)
+        {
+            View.SortDescriptions.Clear();
+            View.SortDescriptions.Add(new SortDescription(nameof(Note.Title), ListSortDirection.Descending));
+        }
+
+        private void SortDate(object sender, RoutedEventArgs e)
+        {
+            View.SortDescriptions.Clear();
+            View.SortDescriptions.Add(new SortDescription(nameof(Note.NoteDate), ListSortDirection.Ascending));
+        }
+
+        private void SortDateDesc(object sender, RoutedEventArgs e)
+        {
+            View.SortDescriptions.Clear();
+            View.SortDescriptions.Add(new SortDescription(nameof(Note.NoteDate), ListSortDirection.Descending));
         }
     }
 }
