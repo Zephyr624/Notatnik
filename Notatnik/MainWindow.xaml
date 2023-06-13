@@ -64,9 +64,9 @@
                 Grid.Row="0"
                 Click="SearchClick"
                 Content="Szukaj"/>
-                <ComboBox Name="Filter_Combobox" Grid.Column="2" IsEnabled="True" SelectionChanged="OptionClick" Margin="3" >
-                    <ComboBoxItem>Data malejąco</ComboBoxItem>
+                <ComboBox Name="Filter_Combobox" Grid.Column="2" IsEnabled="True" SelectionChanged="OptionClick" Margin="3" SelectedIndex="0">
                     <ComboBoxItem>Data rosnąco</ComboBoxItem>
+                    <ComboBoxItem>Data malejąco</ComboBoxItem>
                     <ComboBoxItem>Tytuł A-Z</ComboBoxItem>
                     <ComboBoxItem>Tytuł Z-A</ComboBoxItem>
                 </ComboBox>
@@ -74,10 +74,6 @@
                 Grid.Column="3"
                 Grid.Row="0"
                 Click="SortClick"
-                IsEnabled="{Binding Path=ItemSelected,
-                RelativeSource={RelativeSource FindAncestor,
-                AncestorType={x:Type Window}},
-                Mode=OneWay}" 
                 Content="Sortuj"/>
                 <Label Margin="3"
                 Grid.Column="4"
@@ -105,10 +101,6 @@
                 Grid.Column="8"
                 Grid.Row="0"
                 Click="FilterClick"
-                IsEnabled="{Binding Path=ItemSelected,
-                RelativeSource={RelativeSource FindAncestor,
-                AncestorType={x:Type Window}},
-                Mode=OneWay}" 
                 Content="Filtruj"/>
             </Grid>
 
