@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Notatnik"
         mc:Ignorable="d" 
-        Title="Notatnik" MinHeight="400" MinWidth="800" Height="400" Width="800"
+        Style="{DynamicResource ResourceKey=WindowDefaultStyle}"
+        Title="Notatnik" MinHeight="400" MinWidth="820" Height="400" Width="800"  SnapsToDevicePixels="True"
         Loaded="LoadWindow">
     <DockPanel LastChildFill="True" MinWidth="650" MinHeight="350" Height="auto" >
         <Grid DockPanel.Dock="Top">
@@ -21,14 +22,14 @@
                     <ColumnDefinition Width="auto" MinWidth="40"/>
                     <ColumnDefinition Width="auto" MinWidth="40"/>
                     <ColumnDefinition Width="auto" MinWidth="40"/>
-                    <ColumnDefinition Width="105*" MinWidth="105"/>
+                    <ColumnDefinition Width="80*" MinWidth="105"/>
                     <ColumnDefinition Width="auto" MinWidth="40"/>
-                    <ColumnDefinition Width="105*" MinWidth="105"/>
+                    <ColumnDefinition Width="80*" MinWidth="105"/>
 
                     <ColumnDefinition Width="auto" MinWidth="75"/>
                     <ColumnDefinition Width="auto" MinWidth="10"/>
 
-                    <ColumnDefinition Width="75*"/>
+                    <ColumnDefinition Width="75*" MinWidth="75"/>
                     <ColumnDefinition Width="auto" MinWidth="10"/>
                     <ColumnDefinition Width="75*" MinWidth="75"/>
                     <ColumnDefinition Width="Auto"/>
@@ -67,12 +68,8 @@
                 Grid.Column="5"
                 Grid.Row="0"
                 Click="SearchClick"
-                IsEnabled="{Binding Path=SearchString,
-                RelativeSource={RelativeSource FindAncestor,
-                AncestorType={x:Type Window}},
-                Mode=OneWay}" 
                 Content="Szukaj"/>
-                <ComboBox Name="Filter_Combobox" Grid.Column="6" IsEnabled="True" SelectionChanged="OptionClick" Margin="3" >
+                <ComboBox Style="{DynamicResource ComboBoxStyle1}" Name="Filter_Combobox" Grid.Column="6" IsEnabled="True" SelectionChanged="OptionClick" Margin="3" >
                     <ComboBoxItem>Data malejąco</ComboBoxItem>
                     <ComboBoxItem>Data rosnąco</ComboBoxItem>
                     <ComboBoxItem>Tytuł A-Z</ComboBoxItem>
@@ -91,7 +88,7 @@
                 Grid.Column="8"
                 Grid.Row="2"
                 Content="Od"/>
-                <DatePicker Margin="3"
+                <DatePicker Style="{DynamicResource DatePickerStyle1}" Margin="3"
                 Grid.Column="9"
                 Grid.Row="1"
                 SelectedDate="{Binding Path=DateFrom,
