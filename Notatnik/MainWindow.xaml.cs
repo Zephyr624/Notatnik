@@ -136,12 +136,11 @@ namespace Notatnik
         }
         private void EditClick(object sender, RoutedEventArgs e)
         {
-            var filterednote = FilteredNotes[SelectedNote];
             var unfilterednote = Notes[SelectedNote];
             var note = unfilterednote;
             if (searchString != null || FilterItem != null || (DateFrom != null && DateTo != null))
             {
-                note= filterednote;
+                note = FilteredNotes[SelectedNote];
             }
             var editWindow = new EditWindow();
             editWindow.Note.Title = note.Title;
