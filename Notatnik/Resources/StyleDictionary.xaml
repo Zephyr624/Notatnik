@@ -29,11 +29,15 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <LinearGradientBrush x:Key="ComboBoxItem.Static.Background" EndPoint="0,1" StartPoint="0,0">
+        <GradientStop Color="#582EB3" Offset="0.0"/>
+        <GradientStop Color="#8F5CFF" Offset="1.0"/>
+    </LinearGradientBrush>
     <Style TargetType="TextBox">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBoxBase}">
-                    <Border CornerRadius="2" Padding="2" Background="#582EB3" BorderBrush="LightGray" BorderThickness="1">
+                    <Border CornerRadius="2" Padding="2" Background="{StaticResource ComboBoxItem.Static.Background}" BorderBrush="LightGray" BorderThickness="1">
                         <ScrollViewer Margin="0" x:Name="PART_ContentHost" />
                     </Border>
                 </ControlTemplate>
@@ -64,10 +68,7 @@
         <Setter Property="Background"
                 Value="#8F5CFF"/>
     </Style>
-    <LinearGradientBrush x:Key="ComboBoxItem.Static.Background" EndPoint="0,1" StartPoint="0,0">
-        <GradientStop Color="#582EB3" Offset="0.0"/>
-        <GradientStop Color="#8F5CFF" Offset="1.0"/>
-    </LinearGradientBrush>
+    
     <Style TargetType="ComboBoxItem">
         <Setter Property="Background" Value="{StaticResource ComboBoxItem.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{StaticResource ComboBoxItem.Static.Background}"/>

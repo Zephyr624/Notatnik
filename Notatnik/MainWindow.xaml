@@ -88,7 +88,7 @@
                 Grid.Column="8"
                 Grid.Row="2"
                 Content="Od"/>
-                <DatePicker Style="{DynamicResource DatePickerStyle1}" Margin="3"
+                <DatePicker  Margin="3"
                 Grid.Column="9"
                 Grid.Row="1"
                 SelectedDate="{Binding Path=DateFrom,
@@ -105,7 +105,7 @@
                 SelectedDate="{Binding Path=DateTo,
                 RelativeSource={RelativeSource FindAncestor,
                 AncestorType={x:Type Window}},
-                Mode=TwoWay}"/>
+                Mode=TwoWay}" Foreground="Black"/>
                 <Button Name="FilterButton" Margin="3"
                 Grid.Column="12"
                 Grid.Row="0"
