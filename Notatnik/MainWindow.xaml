@@ -120,6 +120,9 @@
                 Mode=TwoWay}"/>
             <Button Margin="3" DockPanel.Dock="Bottom" 
                 Grid.Row="3"
+            Click="CategoryClick" Content="Kategorie" HorizontalAlignment="Left"/>
+            <Button Margin="3" DockPanel.Dock="Bottom" 
+                Grid.Row="3"
             Click="ClearClick" Content="Wyczyść Filtry" HorizontalAlignment="Right"/>
         </Grid>
     </DockPanel>

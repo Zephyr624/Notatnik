@@ -134,7 +134,7 @@ namespace Notatnik
         }
         private void DeleteClick(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Czy na pewno chcesz usunąć ten film?", "Usuń", MessageBoxButton.YesNo,
+            if (MessageBox.Show("Czy na pewno chcesz usunąć tę notatkę?", "Usuń", MessageBoxButton.YesNo,
                 MessageBoxImage.Question) != MessageBoxResult.Yes)
                 return;
 
@@ -158,6 +158,12 @@ namespace Notatnik
         private void SearchClick(object sender, RoutedEventArgs e)
         {
             CollectionViewSource.GetDefaultView(NoteListBox.ItemsSource).Refresh();
+        }
+
+        private void CategoryClick(object sender, RoutedEventArgs e)
+        {
+            var categoryWindow = new CategoryWindow();
+            categoryWindow.ShowDialog();
         }
         protected override void OnClosing(CancelEventArgs e)
         {

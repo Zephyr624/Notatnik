@@ -2,6 +2,11 @@
 {
     public class Category
     {
-        public int Name { get; set; }
+        public string Name { get; set; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }
