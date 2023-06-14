@@ -3,11 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Notatnik"
         mc:Ignorable="d" 
         Style="{DynamicResource ResourceKey=WindowDefaultStyle}"
-        Title="Notatnik" MinHeight="400" MinWidth="820" Height="400" Width="800"  SnapsToDevicePixels="True"
-        Loaded="LoadWindow">
+        Title="Notatnik" MinHeight="400" MinWidth="900" Height="400" Width="950"  SnapsToDevicePixels="True">
     <DockPanel LastChildFill="True" MinWidth="650" MinHeight="350" Height="auto" >
         <Grid DockPanel.Dock="Top">
             <Grid.RowDefinitions>
@@ -22,29 +20,20 @@
                     <ColumnDefinition Width="auto" MinWidth="40"/>
                     <ColumnDefinition Width="auto" MinWidth="40"/>
                     <ColumnDefinition Width="auto" MinWidth="40"/>
-                    <ColumnDefinition Width="80*" MinWidth="105"/>
+                    <ColumnDefinition Width="70*" MinWidth="105"/>
                     <ColumnDefinition Width="auto" MinWidth="40"/>
-                    <ColumnDefinition Width="80*" MinWidth="105"/>
+                    <ColumnDefinition Width="auto" MinWidth="60"/>
+                    <ColumnDefinition Width="120"/>
 
-                    <ColumnDefinition Width="auto" MinWidth="75"/>
+                    
                     <ColumnDefinition Width="auto" MinWidth="10"/>
 
-                    <ColumnDefinition Width="75*" MinWidth="75"/>
+                    <ColumnDefinition Width="75*" MinWidth="90"/>
                     <ColumnDefinition Width="auto" MinWidth="10"/>
-                    <ColumnDefinition Width="75*" MinWidth="75"/>
+                    <ColumnDefinition Width="75*" MinWidth="90"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Button Margin="3" Grid.Column="0"
-        Title="Notatnik" MinHeight="450" MinWidth="900" Height="450" Width="820"
-        >
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="40"/>
-        </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Grid.Row="0">
-            <Button Margin="3" 
             Click="AddClick" Content="Dodaj"/>
                 <Button Margin="3" 
             Click="EditClick" Grid.Column="1"
@@ -78,18 +67,12 @@
                 Grid.Column="5"
                 Grid.Row="0"
                 Click="Filter"
-                Click="SearchClick"
                 Content="Szukaj"/>
-                <ComboBox Style="{DynamicResource ComboBoxStyle1}" Name="Filter_Combobox" Grid.Column="6" IsEnabled="True" SelectionChanged="OptionClick" Margin="3" >
-                    <ComboBoxItem>Data malejąco</ComboBoxItem>
-                    <ComboBoxItem>Data rosnąco</ComboBoxItem>
-                    <ComboBoxItem>Tytuł A-Z</ComboBoxItem>
-                    <ComboBoxItem>Tytuł Z-A</ComboBoxItem>
-                <Label Margin="3"
-                Grid.Column="2"
+                <Label Margin="1"
+                Grid.Column="6"
                 Grid.Row="2"
-                Content="Sortowanie"/>
-                <ComboBox Name="Filter_Combobox" Grid.Column="3" IsEnabled="True" Margin="3" SelectedIndex="0">
+                Content="Sortowanie:"/>
+                <ComboBox Style="{DynamicResource ComboBoxStyle1}" Name="Filter_Combobox" Grid.Column="7" IsEnabled="True" Margin="3" SelectedIndex="0">
                     <ComboBoxItem Selected="SortDate">Data rosnąco</ComboBoxItem>
                     <ComboBoxItem Selected="SortDateDesc">Data malejąco</ComboBoxItem>
                     <ComboBoxItem Selected="SortTitle">Tytuł A-Z</ComboBoxItem>

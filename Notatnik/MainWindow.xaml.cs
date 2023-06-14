@@ -129,6 +129,7 @@ namespace Notatnik
             {
                 NoteListBox.Items.Refresh();
                 NotifyDetails();
+                CollectionViewSource.GetDefaultView(NoteListBox.ItemsSource).Refresh();
             }
         }
         private void DeleteClick(object sender, RoutedEventArgs e)
