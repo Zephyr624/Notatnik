@@ -22,6 +22,7 @@ namespace Notatnik
             get { return contents; }
             set { contents = value; }
         }
+        public Category category { get; set; }
 
         public override string ToString()
         {
