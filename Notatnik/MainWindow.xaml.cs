@@ -40,7 +40,7 @@ namespace Notatnik
                 return (ListCollectionView)CollectionViewSource.GetDefaultView(Notes);
             }
         }
-
+        public Note SelectedNoteItem { get; set; }
         public List<Note> FilteredNotes = new List<Note>();
 
         private int selectedNote;
@@ -96,19 +96,7 @@ namespace Notatnik
         {
             if (detailsWindow != null)
             {
-                if (FilteredNotes.Count > SelectedNote)
-                {
-                    var filterednote = FilteredNotes[SelectedNote];
-                    if (searchString != null || FilterItem != null || (DateFrom != null && DateTo != null))
-                    {
-                        detailsWindow.Note = filterednote;
-                    }
-                }
-                else
-                {
-                    var unfilterednote = Notes[SelectedNote];
-                    detailsWindow.Note = unfilterednote;
-                }
+                detailsWindow.Note = SelectedNoteItem;
             }
         }
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -128,13 +116,7 @@ namespace Notatnik
         }
         private void EditClick(object sender, RoutedEventArgs e)
         {
-            var filterednote = FilteredNotes[SelectedNote];
-            var unfilterednote = Notes[SelectedNote];
-            var note = unfilterednote;
-            if (searchString != null || FilterItem != null || (DateFrom != null && DateTo != null))
-            {
-                note = filterednote;
-            }
+            var note = SelectedNoteItem;
             var editWindow = new EditWindow();
             editWindow.Note.Title = note.Title;
             editWindow.Note.NoteDate = note.NoteDate;
@@ -153,15 +135,8 @@ namespace Notatnik
             if (MessageBox.Show("Czy na pewno chcesz usunąć ten film?", "Usuń", MessageBoxButton.YesNo,
                 MessageBoxImage.Question) != MessageBoxResult.Yes)
                 return;
-            //if (searchString != null || FilterItem != null || (DateFrom != null && DateTo != null))
-            //{
-            //    var filterednote = FilteredNotes[SelectedNote];
-            //    Notes.RemoveAt(SelectedNote);
-            //    NoteListBox.Items.Refresh();
-            //    selectedNote =Notes.IndexOf(filterednote);
-            //}
 
-            Notes.RemoveAt(SelectedNote);
+            Notes.Remove(SelectedNoteItem);
             selectedNote = Notes.Count > 0 ? Notes.Count : -1;
         }
         private void DetailsClick(object sender, RoutedEventArgs e)

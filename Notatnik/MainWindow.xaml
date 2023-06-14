@@ -108,6 +108,8 @@
 
         <ListBox Name="NoteListBox"
                 Grid.Row="1"
+                 SelectedItem="{Binding Path=SelectedNoteItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},
+                    Mode=TwoWay}"
                 SelectedIndex="{Binding Path=SelectedNote,
                 RelativeSource={RelativeSource FindAncestor,
                 AncestorType={x:Type Window}},
