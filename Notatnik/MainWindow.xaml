@@ -5,6 +5,36 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Notatnik"
         mc:Ignorable="d" 
+        Style="{DynamicResource ResourceKey=WindowDefaultStyle}"
+        Title="Notatnik" MinHeight="400" MinWidth="820" Height="400" Width="800"  SnapsToDevicePixels="True"
+        Loaded="LoadWindow">
+    <DockPanel LastChildFill="True" MinWidth="650" MinHeight="350" Height="auto" >
+        <Grid DockPanel.Dock="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid DockPanel.Dock="Top" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" MinWidth="40"/>
+                    <ColumnDefinition Width="auto" MinWidth="40"/>
+                    <ColumnDefinition Width="auto" MinWidth="40"/>
+                    <ColumnDefinition Width="auto" MinWidth="40"/>
+                    <ColumnDefinition Width="80*" MinWidth="105"/>
+                    <ColumnDefinition Width="auto" MinWidth="40"/>
+                    <ColumnDefinition Width="80*" MinWidth="105"/>
+
+                    <ColumnDefinition Width="auto" MinWidth="75"/>
+                    <ColumnDefinition Width="auto" MinWidth="10"/>
+
+                    <ColumnDefinition Width="75*" MinWidth="75"/>
+                    <ColumnDefinition Width="auto" MinWidth="10"/>
+                    <ColumnDefinition Width="75*" MinWidth="75"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button Margin="3" Grid.Column="0"
         Title="Notatnik" MinHeight="450" MinWidth="900" Height="450" Width="820"
         >
     <Grid>
@@ -16,54 +46,45 @@
         <StackPanel Orientation="Horizontal" Grid.Row="0">
             <Button Margin="3" 
             Click="AddClick" Content="Dodaj"/>
-            <Button Margin="3" 
-            Click="EditClick"
+                <Button Margin="3" 
+            Click="EditClick" Grid.Column="1"
             IsEnabled="{Binding Path=ItemSelected,
             RelativeSource={RelativeSource FindAncestor,
             AncestorType={x:Type Window}},
             Mode=OneWay}"
             Content="Edytuj"/>
-            <Button Margin="3"
+                <Button Margin="3" Grid.Column="2"
             Click="DeleteClick"
             IsEnabled="{Binding Path=ItemSelected,
             RelativeSource={RelativeSource FindAncestor,
             AncestorType={x:Type Window}},
             Mode=OneWay}"
             Content="Usuń"/>
-            <Button Name="DetailsButton" Margin="3"
-            Click="DetailsClick"
+                <Button Name="DetailsButton" Margin="3"
+            Click="DetailsClick" Grid.Column="3"
             IsEnabled="{Binding Path=ItemSelected,
             RelativeSource={RelativeSource FindAncestor,
             AncestorType={x:Type Window}},
             Mode=OneWay}" 
             Content="Podgląd"/>
-            <Grid>
-                <Grid.RowDefinitions>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" MinWidth="105"/>
-                    <ColumnDefinition Width="*" MinWidth="40"/>
-                    <ColumnDefinition Width="*" MinWidth="105"/>
-                    <ColumnDefinition Width="*" MinWidth="40"/>
-                    <ColumnDefinition Width="*" MinWidth="10"/>
-                    <ColumnDefinition Width="*" MinWidth="75"/>
-                    <ColumnDefinition Width="*" MinWidth="10"/>
-                    <ColumnDefinition Width="*" MinWidth="75"/>
-                    <ColumnDefinition Width="*" MinWidth="50"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBox Margin="3"
-                Grid.Column="0"
+                <TextBox Margin="4"
+                Grid.Column="4"
                 Grid.Row="0"
                 Text="{Binding Path=SearchString,
                 RelativeSource={RelativeSource FindAncestor,
                 AncestorType={x:Type Window}},
                 Mode=TwoWay}"/>
                 <Button Name="SearchButton" Margin="3"
-                Grid.Column="1"
+                Grid.Column="5"
                 Grid.Row="0"
                 Click="Filter"
+                Click="SearchClick"
                 Content="Szukaj"/>
+                <ComboBox Style="{DynamicResource ComboBoxStyle1}" Name="Filter_Combobox" Grid.Column="6" IsEnabled="True" SelectionChanged="OptionClick" Margin="3" >
+                    <ComboBoxItem>Data malejąco</ComboBoxItem>
+                    <ComboBoxItem>Data rosnąco</ComboBoxItem>
+                    <ComboBoxItem>Tytuł A-Z</ComboBoxItem>
+                    <ComboBoxItem>Tytuł Z-A</ComboBoxItem>
                 <Label Margin="3"
                 Grid.Column="2"
                 Grid.Row="2"
@@ -75,38 +96,38 @@
                     <ComboBoxItem Selected="SortTitleDesc">Tytuł Z-A</ComboBoxItem>
                 </ComboBox>
                 <Label Margin="3"
-                Grid.Column="4"
+                Grid.Column="8"
                 Grid.Row="2"
                 Content="Od"/>
-                <DatePicker Margin="3"
-                Grid.Column="5"
+                <DatePicker  Margin="3"
+                Grid.Column="9"
                 Grid.Row="1"
                 SelectedDate="{Binding Path=DateFrom,
                 RelativeSource={RelativeSource FindAncestor,
                 AncestorType={x:Type Window}},
                 Mode=TwoWay}"/>
                 <Label Margin="3"
-                Grid.Column="6"
+                Grid.Column="10"
                 Grid.Row="2"
                 Content="Do"/>
                 <DatePicker Margin="3"
-                Grid.Column="7"
+                Grid.Column="11"
                 Grid.Row="1"
                 SelectedDate="{Binding Path=DateTo,
                 RelativeSource={RelativeSource FindAncestor,
                 AncestorType={x:Type Window}},
-                Mode=TwoWay}"/>
+                Mode=TwoWay}" Foreground="Black"/>
                 <Button Name="FilterButton" Margin="3"
-                Grid.Column="8"
+                Grid.Column="12"
                 Grid.Row="0"
                 Click="Filter"
                 Content="Filtruj"/>
             </Grid>
 
 
-        </StackPanel>
 
-        <ListBox Name="NoteListBox"
+
+            <ListBox Name="NoteListBox" DockPanel.Dock="Top"
                 Grid.Row="1"
                  SelectedItem="{Binding Path=SelectedNoteItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}},
                     Mode=TwoWay}"
@@ -114,8 +135,9 @@
                 RelativeSource={RelativeSource FindAncestor,
                 AncestorType={x:Type Window}},
                 Mode=TwoWay}"/>
-        <Button Margin="3" 
+            <Button Margin="3" DockPanel.Dock="Bottom" 
                 Grid.Row="3"
             Click="ClearClick" Content="Wyczyść Filtry" HorizontalAlignment="Right"/>
-    </Grid>
+        </Grid>
+    </DockPanel>
 </Window>

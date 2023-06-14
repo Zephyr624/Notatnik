@@ -5,24 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Notatnik"
         mc:Ignorable="d"
-       Title="Podgląd" Height="auto" Width="500" SizeToContent="Height">
-    <Grid Height="210">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="auto"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
+       Title="Podgląd"  MinWidth="500" MinHeight="250" Height="250" Width="500" >
+    <DockPanel LastChildFill="True" MinWidth="450">
+        <Grid DockPanel.Dock="Top" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition MinHeight="100" Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-        <Label Margin="5"
+            <Label Margin="5"
             Grid.Column="0"
             Grid.Row="0"
             Content="Tytuł"/>
-        <TextBox Margin="5"
+            <TextBox Margin="5"
             Grid.Column="1"
             Grid.Row="0"
             IsReadOnly="True"
@@ -31,11 +32,11 @@
             AncestorType={x:Type Window}},
             Mode=OneWay}"/>
 
-        <Label Margin="5"
+            <Label Margin="5"
             Grid.Column="0"
             Grid.Row="1" 
             Content="Data notatki"/>
-        <TextBox Margin="5"
+            <TextBox Margin="5"
             Grid.Column="1"
             Grid.Row="1"
             IsReadOnly="True"
@@ -44,10 +45,10 @@
             AncestorType={x:Type Window}},
             Mode=OneWay}"/>
 
-        <Label Margin="5"
+            <Label Margin="5"
             Grid.Column="0"
             Grid.Row="2" Content="Treść"/>
-        <TextBox Margin="5"
+            <TextBox Margin="5"
             Grid.Column="1"
             Grid.Row="2"
             IsReadOnly="True"
@@ -56,14 +57,15 @@
             AncestorType={x:Type Window}},
             Mode=OneWay}"/>
 
-        <StackPanel Orientation="Horizontal"
+            <StackPanel Orientation="Horizontal"
             Grid.Row="3"
             Grid.ColumnSpan="2"
             HorizontalAlignment="Right">
-            <Button IsDefault="True"
+                <Button IsDefault="True"
             Margin="5"
             Click="CloseClick" 
             Content="Zamknij"/>
-        </StackPanel>
-    </Grid>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
 </Window>
