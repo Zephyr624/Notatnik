@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Data;
 using System.Xml.Serialization;
-using static System.Reflection.Metadata.BlobBuilder;
 
 
 namespace Notatnik
@@ -40,14 +37,22 @@ namespace Notatnik
                 return (ListCollectionView)CollectionViewSource.GetDefaultView(Notes);
             }
         }
-        public Note SelectedNoteItem { get; set; }
-        public List<Note> FilteredNotes = new List<Note>();
+        private Note selectedNoteItem;
+        public Note SelectedNoteItem
+        {
+            get => selectedNoteItem;
+            set
+            {
+                selectedNoteItem = value;
+                NotifyDetails();
+            }
+        }
+        public List<Note> FilteredNotes = new();
 
         private int selectedNote;
 
         private DetailsWindow? detailsWindow = null;
         private string searchString { get; set; }
-        private string FilterItem { get; set; }
         private DateTime? dateFrom { get; set; }
         private DateTime? dateTo { get; set; }
 
@@ -58,9 +63,8 @@ namespace Notatnik
             set
             {
                 selectedNote = value;
-                OnPropertyChanged("SelectedNote");
                 OnPropertyChanged("ItemSelected");
-                NotifyDetails();
+
             }
         }
         public string SearchString
@@ -117,15 +121,12 @@ namespace Notatnik
         private void EditClick(object sender, RoutedEventArgs e)
         {
             var note = SelectedNoteItem;
-            var editWindow = new EditWindow();
-            editWindow.Note.Title = note.Title;
-            editWindow.Note.NoteDate = note.NoteDate;
-            editWindow.Note.Contents = note.Contents;
+            var editWindow = new EditWindow
+            {
+                Note = note
+            };
             if (editWindow.ShowDialog() == true)
             {
-                note.Title = editWindow.Note.Title;
-                note.NoteDate = editWindow.Note.NoteDate;
-                note.Contents = editWindow.Note.Contents;
                 NoteListBox.Items.Refresh();
                 NotifyDetails();
             }
@@ -155,15 +156,12 @@ namespace Notatnik
         }
         private void SearchClick(object sender, RoutedEventArgs e)
         {
-            //FilteredNotes=Notes.Where(w => w.Title.Contains(searchString)).ToList();
-            //NoteListBox.ItemsSource = FilteredNotes;
-            //NoteListBox.Items.Refresh();
             CollectionViewSource.GetDefaultView(NoteListBox.ItemsSource).Refresh();
         }
         protected override void OnClosing(CancelEventArgs e)
         {
-            XmlSerializer xs = new XmlSerializer(typeof(ObservableCollection<Note>));
-            using (StreamWriter wr = new StreamWriter("notes.xml"))
+            XmlSerializer xs = new(typeof(ObservableCollection<Note>));
+            using (StreamWriter wr = new("notes.xml"))
             {
                 xs.Serialize(wr, Notes);
             }
