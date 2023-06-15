@@ -27,13 +27,11 @@ namespace Notatnik
         public CategoryWindow()
         {
             InitializeComponent();
-            XmlSerializer xs = new(typeof(ObservableCollection<Category>));
-            try
-            {
-                using StreamReader rd = new("categories.xml");
-                Categories = xs.Deserialize(rd) as ObservableCollection<Category> ?? new ObservableCollection<Category>();
-            }
-            catch (Exception) { }
+        }
+
+        public CategoryWindow(ObservableCollection<Category> categories) : this()
+        {
+            Categories = categories;
             SelectedCategory = Categories.Count > 0 ? Categories[0] : null;
             CategoryListBox.ItemsSource = Categories;
         }

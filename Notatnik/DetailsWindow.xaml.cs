@@ -18,10 +18,8 @@ namespace Notatnik
             get { return note; }
             set
             {
-                note.Title = value.Title;
-                note.NoteDate = value.NoteDate;
+                note = value;
                 DateToString = note.NoteDate.ToString("D");
-                note.Contents = value.Contents;
                 NotifyPropertyChanged(nameof(Note));
             }
         }

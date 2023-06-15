@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Notatnik"
         mc:Ignorable="d"
-       Title="EditWindow" MinWidth="500" MinHeight="250" Height="250" Width="500" >
+       Title="EditWindow" MinWidth="500" MinHeight="300" Height="300" Width="500" >
     <DockPanel LastChildFill="True" MinWidth="450">
         <Grid DockPanel.Dock="Top" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition MinHeight="100" Height="*"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -55,9 +56,16 @@
             AncestorType={x:Type Window}},
             Mode=TwoWay}"/>
 
+            <Label Margin="5"
+            Grid.Column="0"
+            Grid.Row="3" 
+            Content="Kategoria"/>
+            <ComboBox Grid.Column="1" Grid.Row="3" Margin="3" Name="CategoryComboBox">
+            </ComboBox>
+
             <StackPanel Orientation="Horizontal"
                     
-            Grid.Row="3"
+            Grid.Row="4"
             Grid.ColumnSpan="2"
             HorizontalAlignment="Right">
                 <Button IsDefault="True"

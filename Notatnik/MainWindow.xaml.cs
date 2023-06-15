@@ -16,6 +16,7 @@ namespace Notatnik
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         public ObservableCollection<Note> Notes { get; set; } = new ObservableCollection<Note>();
+        public ObservableCollection<Category> Categories { get; set; }
         public MainWindow()
         {
             InitializeComponent();
@@ -26,7 +27,7 @@ namespace Notatnik
                 Notes = xs.Deserialize(rd) as ObservableCollection<Note> ?? new ObservableCollection<Note>();
             }
             catch (Exception) { }
-
+            Categories = Category.GetCategoriesFromFile();
             NoteListBox.ItemsSource = Notes;
             SelectedNote = Notes.Count > 0 ? 0 : -1;
         }
@@ -110,7 +111,7 @@ namespace Notatnik
         }
         private void AddClick(object sender, RoutedEventArgs e)
         {
-            var addWindow = new EditWindow();
+            var addWindow = new EditWindow(Categories);
             addWindow.Note.NoteDate = DateTime.Today;
             if (addWindow.ShowDialog() == true)
             {
@@ -120,11 +121,7 @@ namespace Notatnik
         }
         private void EditClick(object sender, RoutedEventArgs e)
         {
-            var note = SelectedNoteItem;
-            var editWindow = new EditWindow
-            {
-                Note = note
-            };
+            var editWindow = new EditWindow(Categories, SelectedNoteItem);
             if (editWindow.ShowDialog() == true)
             {
                 NoteListBox.Items.Refresh();
@@ -162,7 +159,7 @@ namespace Notatnik
 
         private void CategoryClick(object sender, RoutedEventArgs e)
         {
-            var categoryWindow = new CategoryWindow();
+            var categoryWindow = new CategoryWindow(Categories);
             categoryWindow.ShowDialog();
         }
         protected override void OnClosing(CancelEventArgs e)

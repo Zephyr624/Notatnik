@@ -6,12 +6,16 @@
         xmlns:local="clr-namespace:Notatnik"
         mc:Ignorable="d"
        Title="Podgląd"  MinWidth="500" MinHeight="250" Height="250" Width="500" >
+    <Window.Resources>
+        <local:CategoryConverter x:Key="CategoryConverter" />
+    </Window.Resources>
     <DockPanel LastChildFill="True" MinWidth="450">
         <Grid DockPanel.Dock="Top" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition MinHeight="100" Height="*"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -56,9 +60,20 @@
             RelativeSource={RelativeSource FindAncestor,
             AncestorType={x:Type Window}},
             Mode=OneWay}"/>
+            <Label Margin="5"
+            Grid.Column="0"
+            Grid.Row="3" 
+            Content="Kategoria"/>
 
-            <StackPanel Orientation="Horizontal"
+            <TextBox Margin="5"
+            Grid.Column="1"
             Grid.Row="3"
+            Text="{Binding Path=Note.Category, Converter={StaticResource CategoryConverter},
+            RelativeSource={RelativeSource FindAncestor,
+            AncestorType={x:Type Window}},
+            Mode=OneWay}"/>
+            <StackPanel Orientation="Horizontal"
+            Grid.Row="4"
             Grid.ColumnSpan="2"
             HorizontalAlignment="Right">
                 <Button IsDefault="True"
